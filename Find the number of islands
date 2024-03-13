@@ -1,0 +1,135 @@
+Solution 1:DFS
+
+class Solution {
+    // Function to find the number of islands.
+    public int numIslands(char[][] grid) {
+        // Code here 
+        int result=0;
+        for(int i=0;i<grid.length;i++)
+        {
+            for(int j=0;j<grid[0].length;j++)
+            {
+                if(grid[i][j]=='1')
+                {
+                    result++;
+                    changeTheLand(grid,i,j);
+                }
+            }
+        }
+        return result;
+    }
+    
+    
+    
+     public void changeTheLand(char[][] grid,int i,int j) {
+         if(i<0 || i>=grid.length || j<0 || j>=grid[0].length || grid[i][j]!='1')
+           return;
+          
+          grid[i][j]='2';
+          
+           changeTheLand(grid,i-1,j); //up
+            changeTheLand(grid,i+1,j); //down
+             changeTheLand(grid,i,j-1); //left
+              changeTheLand(grid,i,j+1); //right
+               changeTheLand(grid,i-1,j+1);  // TRD
+                changeTheLand(grid,i+1,j+1);   //BRD
+                 changeTheLand(grid,i-1,j-1);   //TLD
+                  changeTheLand(grid,i+1,j-1);   //BLD
+          
+           
+     }
+}
+
+
+
+Solution 2:BFS
+
+
+class Solution {
+    // Function to find the number of islands.
+    public int numIslands(char[][] grid) {
+        // Code here 
+        int result=0;
+        for(int i=0;i<grid.length;i++)
+        {
+            for(int j=0;j<grid[0].length;j++)
+            {
+                if(grid[i][j]=='1')
+                {
+                    result++;
+                    changeTheLand(grid,i,j);
+                }
+            }
+        }
+        return result;
+    }
+    
+    
+    
+     public void changeTheLand(char[][] grid,int i,int j) {
+         if(i<0 || i>=grid.length || j<0 || j>=grid[0].length || grid[i][j]!='1')
+           return;
+          
+          grid[i][j]='2';
+          
+          
+          Queue<QueueElements> q = new LinkedList<>();
+          
+          q.add(new QueueElements(grid[i][j],i,j));
+          
+          while(!q.isEmpty())
+          {
+              QueueElements ele=q.remove();
+              int row=ele.row;
+              int col=ele.col;
+              char val=ele.val;
+              
+              
+              
+              int[] dr={0,0,-1,+1,-1,-1,+1,+1};
+              int[] dc={-1,+1,0,0,+1,-1,+1,-1};
+              
+              
+              
+              for(int k=0;k<8;k++)
+              {
+                  int indexI=row+dr[k];
+                  int indexJ=col+dc[k];
+                  
+                  if(indexI<0 || indexJ<0 || indexI>=grid.length || indexJ>=grid[0].length)
+                    continue;
+                  
+                  char newElement=grid[indexI][indexJ];
+                  
+                  if(newElement == '1')
+                  {
+                      grid[indexI][indexJ]=2;
+                      q.add(new QueueElements(grid[indexI][indexJ],indexI,indexJ));
+                  }
+                  
+              }
+              
+              
+          }
+          
+           
+     }
+}
+
+
+class QueueElements{
+    
+    char val;
+    int row;
+    int col;
+    
+    QueueElements(char val,int row,int col)
+    {
+        this.val=val;
+        this.row=row;
+        this.col=col;
+    }
+    
+    
+}
+
