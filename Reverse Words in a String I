@@ -1,0 +1,12 @@
+Solution 1:
+
+Input: s = "the sky is blue"
+Output: "blue is sky the"
+     
+       String st[] = s.trim().split("\\s+");
+        String ans = "";
+        for (int i = st.length-1; i >=0; i--) {
+            ans += st[i] + " ";
+        }
+         
+        return ans.substring(0, ans.length()-1);
