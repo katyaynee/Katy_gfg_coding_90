@@ -1,0 +1,77 @@
+Solution 1:
+
+
+
+class Solution {
+    public String longestPalindrome(String s) {
+       String res = "";
+       int res_len = 0;
+
+       for (int i = 0; i < s.length(); i++) {
+           int l, r;
+    
+               l = i;
+               r = i;
+               while (l >= 0 && r < s.length() && s.charAt(l) == s.charAt(r)) {
+                   if (r - l + 1 > res_len) {
+                       res = s.substring(l, r + 1);
+                       res_len = r - l + 1;
+                   }
+                   l--;
+                   r++;
+               }
+          
+               l = i;
+               r = i + 1;
+               while (l >= 0 && r < s.length() && s.charAt(l) == s.charAt(r)) {
+                   if (r - l + 1 > res_len) {
+                       res = s.substring(l, r + 1);
+                       res_len = r - l + 1;
+                   }
+                   l--;
+                   r++;
+               }
+           
+       }
+      return res;  
+    }
+}
+
+
+
+
+Solution 2:
+
+
+class Solution {
+    public String longestPalindrome(String s) {
+   int start=0;
+   int end=0;
+     for(int i=0;i<s.length();i++)
+     {
+      
+    int len1=extractfromCentre(i,i,s) ;
+    int len2=extractfromCentre(i,i+1,s);
+    int len=Math.max(len1,len2);
+
+     if(len>end-start)
+     {
+
+     start=i-(len-1)/2;
+     end=i+(len/2);
+     }
+     }
+     return s.substring(start,end+1);  
+
+    }
+    public int extractfromCentre(int l,int r,String s)
+    {
+    while(l>=0 && r<s.length() && s.charAt(l)==s.charAt(r))
+    {
+        l--;
+        r++;
+    }
+    return r-l-1;
+
+    }
+}
