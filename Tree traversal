@@ -1,0 +1,97 @@
+###Inorder
+
+
+class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        Stack<TreeNode> stk =new Stack<>();
+        ArrayList<Integer> ans= new ArrayList<>();
+       
+        while(true)
+        {
+          if(root!=null)
+          {
+            stk.push(root);
+            root=root.left;
+          }
+          else{
+            if(stk.isEmpty())
+             break;
+            TreeNode temp= stk.pop();
+            ans.add(temp.val);
+            root=temp.right;
+
+          }
+
+        }
+        return ans;
+    }
+}
+
+
+
+############Preorder
+
+
+class Solution {
+    public List<Integer> preorderTraversal(TreeNode root) {
+
+        
+        Stack<TreeNode> stk =new Stack<>();
+        ArrayList<Integer> ans=new ArrayList<>();
+
+        if(root==null)
+        return ans;
+
+        stk.push(root);
+
+        while(!stk.isEmpty())
+        {
+            TreeNode temp=stk.pop();
+            ans.add(temp.val);
+
+            if(temp.right!=null)
+            stk.push(temp.right);
+
+             if(temp.left!=null)
+            stk.push(temp.left);
+        }
+        return ans;
+    }
+}
+
+
+
+
+##############PostOrder
+
+class Solution {
+    public List<Integer> postorderTraversal(TreeNode root) {
+    List<Integer> lt=new ArrayList<Integer>();
+    Stack<TreeNode> stk1=new Stack<TreeNode>();
+    Stack<TreeNode> stk2=new Stack<TreeNode>();
+
+     if(root==null)
+       return lt;
+      
+      stk1.push(root);
+       while(!stk1.isEmpty())
+       {
+        TreeNode temp=stk1.pop();
+        stk2.push(temp);
+
+        if(temp.left!=null)
+         stk1.push(temp.left);
+
+        if(temp.right!=null)
+        stk1.push(temp.right);
+
+       }
+
+       while(!stk2.isEmpty())
+       {
+        lt.add(stk2.pop().val);
+       }
+       return lt;
+
+    }
+}
