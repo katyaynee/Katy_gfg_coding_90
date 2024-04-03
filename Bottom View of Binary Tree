@@ -1,0 +1,61 @@
+class Solution
+{
+    //Function to return a list containing the bottom view of the given tree.
+    public ArrayList <Integer> bottomView(Node root)
+    {
+        // Code here
+        
+        Queue<Tuple> q= new LinkedList<>();
+        TreeMap<Integer,Integer> tm =new TreeMap<>();
+        q.add(new Tuple(root,0));
+
+        while(!q.isEmpty())
+        {
+            int size=q.size();
+
+            for(int i=0;i<size;i++)
+            {
+                Tuple temp=q.remove();
+                Node node=temp.node;
+                int v=temp.vertical;
+      
+
+               
+                 tm.put(v,node.data);
+                
+
+
+                if(node.left!=null)
+                q.add(new Tuple(node.left,v-1));
+
+                if(node.right!=null)
+                q.add(new Tuple(node.right,v+1));
+
+                
+            }
+        }
+        ArrayList<Integer> bottomList = new ArrayList<>();
+        
+        for(Map.Entry<Integer,Integer> i : tm.entrySet())
+        {
+            bottomList.add(i.getValue());
+        }
+        
+
+        return bottomList;
+    }
+}
+
+
+
+class Tuple{
+    Node node;
+    int vertical;
+  
+    Tuple( Node node, int vertical)
+    {
+        this.node=node;
+        this.vertical=vertical;
+     
+    }
+}
