@@ -1,0 +1,110 @@
+//User function Template for Java
+
+// class Node  
+// { 
+//     int data; 
+//     Node left, right; 
+   
+//     public Node(int d)  
+//     { 
+//         data = d; 
+//         left = right = null; 
+//     } 
+// }
+
+class Solution
+{
+	ArrayList <Integer> boundary(Node node)
+	{
+	    
+	    ArrayList<Integer> al =new ArrayList<>();
+	    
+	    if(node==null)
+	    return al;
+	    
+	    if(!isLeafNode(node))
+	    al.add(node.data);
+	    
+	    leftBoundary(node,al);
+	    addLeaves(node,al);
+	    rightBoundary(node,al);
+	    
+	   return al;
+	}
+	
+	boolean isLeafNode(Node node)
+	{
+	    if(node.left==null && node.right==null)
+	    return true;
+	    
+	    return false;
+	}
+	
+	
+	void leftBoundary(Node node,ArrayList<Integer> al)
+	{
+		 Node curr=node.left;
+		 
+	   while(curr!=null)
+	   {
+	      if(isLeafNode(curr)==false)
+	       al.add(curr.data);
+	       
+	       if(curr.left!=null)
+	       curr=curr.left;
+	       
+	       else
+	       curr=curr.right;
+	   }
+		 
+
+	}
+	
+	
+	void addLeaves(Node node,ArrayList<Integer> al)
+	{
+	    
+	    
+	    if(isLeafNode(node))
+	    {
+	    al.add(node.data);
+	    return;
+	    }
+	    if(node.left!=null)
+	    addLeaves(node.left,al);
+	    
+	    if(node.right!=null)
+	    addLeaves(node.right,al);
+	    
+	   
+		    
+	}
+	
+	
+	void rightBoundary(Node node,ArrayList<Integer> al)
+	{
+		  
+		  Stack<Integer> stk =new Stack<>();
+		  Node curr=node.right;
+		  while(curr!=null)
+		  {
+		       if(isLeafNode(curr)==false)
+		           stk.push(curr.data);
+		      
+		       if(curr.right!=null)
+		       curr=curr.right;
+		       else
+		       curr=curr.left;
+		       
+		  }
+		  
+		  while(!stk.isEmpty())
+		  al.add(stk.pop());
+		  
+	}
+		  
+	
+    }
+	
+	
+	
