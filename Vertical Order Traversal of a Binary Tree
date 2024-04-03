@@ -1,0 +1,89 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public List<List<Integer>> verticalTraversal(TreeNode root) {
+        Queue<Tuple> q= new LinkedList<>();
+        TreeMap<Integer,TreeMap<Integer,PriorityQueue<Integer>>> tm =new TreeMap<>();
+        q.add(new Tuple(root,0,0));
+
+        while(!q.isEmpty())
+        {
+            int size=q.size();
+
+            for(int i=0;i<size;i++)
+            {
+                Tuple temp=q.remove();
+                TreeNode node=temp.node;
+                int v=temp.vertical;
+                int l=temp.level;
+
+                if(!tm.containsKey(v))
+                {
+                 tm.put(v,new TreeMap<>());
+                }
+
+                if(!tm.get(v).containsKey(l))
+                {
+                    tm.get(v).put(l,new PriorityQueue<>());
+                }
+
+                tm.get(v).get(l).add(node.val);
+
+                if(node.left!=null)
+                q.add(new Tuple(node.left,v-1,l+1));
+
+                if(node.right!=null)
+                q.add(new Tuple(node.right,v+1,l+1));
+
+                
+            }
+        }
+
+        List<List<Integer>> ans = new ArrayList<>();
+        for(TreeMap<Integer,PriorityQueue<Integer>> i : tm.values())
+        {
+          List<Integer> sub = new ArrayList<>();
+           for(PriorityQueue<Integer> nodeData : i.values())
+           {
+             while(!nodeData.isEmpty())
+             {
+                sub.add(nodeData.poll());
+             }
+           }
+           ans.add(sub);
+
+        }
+
+        return ans;
+
+
+        
+
+
+    }
+}
+
+class Tuple{
+    TreeNode node;
+    int vertical;
+    int level;
+    Tuple( TreeNode node, int vertical,int level)
+    {
+        this.node=node;
+        this.vertical=vertical;
+        this.level=level;
+    }
+}
