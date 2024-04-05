@@ -1,0 +1,27 @@
+public class Solution {
+    public ArrayList<Integer> solve(TreeNode A, int B) {
+        
+        ArrayList<Integer> ans=new ArrayList<>();
+        if(A== null)
+        return ans;
+        
+        pathPresent(A, B,ans);
+        return ans;
+        
+    }
+    
+    public boolean pathPresent(TreeNode A, int B,ArrayList<Integer> ans) {
+        if(A==null)
+        return false;
+        
+        ans.add(A.val);
+        if(A.val==B)
+        return true;
+        
+        if(pathPresent(A.left, B,ans)|| pathPresent(A.right, B,ans))
+        return true;
+        
+        ans.remove(ans.size()-1);
+        return false;
+}  
+}     
