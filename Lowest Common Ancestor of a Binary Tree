@@ -1,0 +1,63 @@
+Solution 1:
+
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        ArrayList<TreeNode> ansP=new ArrayList<>();
+        ArrayList<TreeNode> ansQ=new ArrayList<>();
+        if(root== null)
+        return null;;
+        
+        pathPresent(root, p,ansP);
+        pathPresent(root, q,ansQ);
+       
+       TreeNode ans=null;
+       int i=0;
+       while(i<ansP.size() && i<ansQ.size())
+       {
+        if(ansP.get(i)!=ansQ.get(i))
+        break;
+        ans=ansP.get(i);
+        i++;
+       }
+        return ans;
+    }
+
+     public boolean pathPresent(TreeNode root, TreeNode x,ArrayList<TreeNode> ans) {
+        if(root==null)
+        return false;
+        
+        ans.add(root);
+        if(root==x)
+        return true;
+        
+        if(pathPresent(root.left,x,ans)|| pathPresent(root.right, x,ans))
+        return true;
+        
+        ans.remove(ans.size()-1);
+        return false;
+}  
+}
+
+
+Solution 2:
+
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root==null || root==p || root==q)
+          return root;
+        
+
+        TreeNode left=lowestCommonAncestor(root.left,p,q);
+         TreeNode right=lowestCommonAncestor(root.right,p,q);
+
+         if(left==null)
+         return right;
+
+         else if(right==null)
+         return left;
+
+         else
+         return root;
+
+    }
+}
