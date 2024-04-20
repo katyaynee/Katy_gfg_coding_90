@@ -1,0 +1,92 @@
+class Solution {
+    public int orangesRotting(int[][] grid) {
+         
+         int n=grid.length;
+         int m=grid[0].length;
+
+         Queue<QueueElements> q = new LinkedList<>();
+         int[][] vis=new int[n][m];
+      
+         for(int i=0;i<grid.length;i++)
+         {
+            for(int j=0;j<grid[0].length;j++)
+            {
+                if(grid[i][j]==2)
+                {
+                vis[i][j]=2;
+                 q.add(new QueueElements(i,j,0));
+                }
+                else
+                {
+                    vis[i][j]=0;
+                    }
+            }
+         }
+
+             int tm=0;
+              
+        
+          while(!q.isEmpty())
+          {
+              QueueElements ele=q.remove();
+              int row=ele.row;
+              int col=ele.col;
+              int time=ele.tm;
+              
+              tm=Math.max(time,tm);
+              
+              int[] dr={0,0,-1,+1};
+              int[] dc={-1,+1,0,0};
+              
+             
+              for(int k=0;k<4;k++)
+              {
+                  int indexI=row+dr[k];
+                  int indexJ=col+dc[k];
+                  
+                  if(indexI<0 || indexJ<0 || indexI>=grid.length || indexJ>=grid[0].length || vis[indexI][indexJ]!=0)
+                    continue;
+                  
+                  int newElement=grid[indexI][indexJ];
+                  
+                  if(newElement == 1)
+                  {
+                      grid[indexI][indexJ]=2;
+                      vis[indexI][indexJ]=2;
+                      q.add(new QueueElements(indexI,indexJ,time+1));
+                  }
+                  
+              }
+              
+              
+          }
+
+          for(int i=0;i<n;i++)
+          {
+            for(int j=0;j<m;j++)
+            {
+                if(grid[i][j]==1 && vis[i][j]!=2)
+                tm=-1;
+            }
+          }
+
+          return tm;
+          
+    }
+}
+class QueueElements{
+    
+    int tm;
+    int row;
+    int col;
+    
+    QueueElements(int row,int col,int tm)
+    {
+       
+        this.row=row;
+        this.col=col;
+        this.tm=tm;
+    }
+    
+    
+}
