@@ -1,0 +1,84 @@
+class Solution {
+
+	public int[] shortestPath(int N,int M, int[][] edges) {
+		//Code here
+		
+		ArrayList<ArrayList<Pair>> adj= new ArrayList<>();
+		
+		for(int i=0;i<N;i++)
+		{
+		    adj.add(new ArrayList<Pair>());
+		}
+		
+		for(int i=0;i<M;i++)
+		{
+		    int u=edges[i][0];
+		    int v=edges[i][1];
+		    int w=edges[i][2];
+		    adj.get(u).add(new Pair(v,w));
+		}
+		
+		Stack<Integer> stk=new Stack<>();
+		int[] vis= new int[N];
+		
+		for(int i=0;i<N;i++)
+		{
+		    if(vis[i]==0)
+		     topoSort(i,vis,adj,N,M,stk);
+		}
+		
+		int[] dis=new int[N];
+		for(int i=0;i<N;i++)
+		{
+		    dis[i]=(int)1e9;
+		}
+		dis[0]=0;
+		
+		while(!stk.isEmpty())
+		{
+		    int node= stk.pop();
+		   
+		    for(int i=0;i<adj.get(node).size();i++)
+		    {
+		        int v= adj.get(node).get(i).edge;
+		        int w= adj.get(node).get(i).weight;
+		        
+		        if(dis[node]+w< dis[v])
+		          dis[v]=dis[node]+w;
+		    }
+		}
+		
+		for(int i=0;i<N;i++)
+		{
+		    if(dis[i]==1e9)
+		    dis[i]=-1;
+		}
+		
+		return dis;
+		
+	}
+	
+		public void topoSort(int src,int[] vis,ArrayList<ArrayList<Pair>> adj,int N,int M,Stack<Integer> stk) {
+		    vis[src]=1;
+		    
+		    for(int i=0;i<adj.get(src).size();i++)
+		    {
+		        int adjNode= adj.get(src).get(i).edge;
+		        if(vis[adjNode]==0)
+		        topoSort(adjNode,vis,adj,N,M,stk);
+		    }
+		    stk.push(src);
+		}
+	
+	
+}
+
+class Pair{
+    int edge;
+    int weight;
+    Pair(int edge,int weight)
+    {
+        this.edge=edge;
+        this.weight=weight;
+        
+    }
